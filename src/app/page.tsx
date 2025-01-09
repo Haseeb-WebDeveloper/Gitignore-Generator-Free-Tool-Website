@@ -42,8 +42,8 @@ export default function GitignorePage() {
     };
 
     return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <Card className="mb-8">
+        <div className="container mx-auto px-4 py-8 max-w-4xl padding">
+            <Card className="mb-8 bg-foreground/[0.03]">
                 <CardHeader>
                     <CardTitle className="text-center">
                         <h1 className="text-4xl font-bold">Gitignore Generator</h1>
@@ -89,12 +89,12 @@ export default function GitignorePage() {
 
             {result && (
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardHeader className="flex flex-col md:flex-row gap-4 items-center justify-between space-y-0 pb-2">
                         <CardTitle>Your .gitignore file</CardTitle>
                         <DownloadButton content={result} />
                     </CardHeader>
                     <CardContent>
-                        <div className="relative rounded-md bg-muted">
+                        <div className="relative rounded-md bg-muted mt-2 md:mt-0">
                             <pre className="overflow-x-auto p-4 text-sm">
                                 <code>{result}</code>
                             </pre>
@@ -103,7 +103,7 @@ export default function GitignorePage() {
                                     navigator.clipboard.writeText(result);
                                     toast.success('Copied to clipboard!');
                                 }}
-                                variant="secondary"
+                                variant="outline"
                                 className="absolute right-2 top-2"
                             >
                                 Copy
@@ -112,6 +112,6 @@ export default function GitignorePage() {
                     </CardContent>
                 </Card>
             )}
-        </main>
+        </div>
     );
 }
