@@ -1,96 +1,101 @@
 "use client"
 
 import * as React from "react"
-import { Check, Search } from "lucide-react"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./command"
+import { LANGUAGES } from "@/constant/constant"
 import { cn } from "@/lib/utils"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command"
+import { Check } from "lucide-react"
 
-interface Language {
+interface ComboboxProps {
   value: string
-  label: string
+  onChange: (value: string) => void
+  disabled?: boolean
 }
 
-const languages: Language[] = [
-  { value: "node", label: "Node.js" },
-  { value: "python", label: "Python" },
-  { value: "react", label: "React" },
-  { value: "nextjs", label: "Next.js" },
-  { value: "java", label: "Java" },
-  { value: "go", label: "Go" },
-  { value: "rust", label: "Rust" },
-  { value: "cpp", label: "C++" },
-  { value: "ruby", label: "Ruby" },
-  { value: "php", label: "PHP" },
-  { value: "swift", label: "Swift" },
-  { value: "kotlin", label: "Kotlin" },
-  { value: "flutter", label: "Flutter" },
-  { value: "django", label: "Django" },
-  { value: "vue", label: "Vue.js" },
-  { value: "angular", label: "Angular" },
-  { value: "typescript", label: "TypeScript" },
-  { value: "dart", label: "Dart" },
-  { value: "scala", label: "Scala" },
-  { value: "unity", label: "Unity" },
-]
+export function Combobox({ value, onChange, disabled }: ComboboxProps) {
+  const [open, setOpen] = React.useState(false)
+  const [search, setSearch] = React.useState("")
 
-export function LanguageCombobox({ 
-  selectedLanguages, 
-  onSelect 
-}: { 
-  selectedLanguages: string[]
-  onSelect: (value: string) => void 
-}) {
+  // Get current selected languages
+  const selectedLanguages = value.split(',').map(v => v.trim()).filter(Boolean)
+
+  // Filter languages based on search
+  const filteredLanguages = React.useMemo(() => {
+    if (!search) return []
+    const searchTerms = search.toLowerCase().split(',').map(term => term.trim())
+    const lastTerm = searchTerms[searchTerms.length - 1]
+    
+    if (!lastTerm) return []
+
+    return LANGUAGES
+      .filter(lang => 
+        lang.toLowerCase().includes(lastTerm) &&
+        !selectedLanguages.includes(lang.toLowerCase()) // Don't show already selected languages
+      )
+      .slice(0, 5)
+  }, [search, selectedLanguages])
+
+  // Handle selection
+  const handleSelect = (selectedValue: string) => {
+    const newValue = selectedLanguages.length > 0 
+      ? `${value}, ${selectedValue}` 
+      : selectedValue
+
+    onChange(newValue)
+    setSearch("")
+    setOpen(false)
+  }
+
+  // Handle click outside to close dropdown
+  React.useEffect(() => {
+    const handleClickOutside = () => setOpen(false)
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [])
+
   return (
-    <div className="relative">
-      <Command className="rounded-lg border shadow-md">
-        <div className="flex items-center border-b px-3">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-          <CommandInput 
-            placeholder="Search languages..." 
-            className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-          />
-        </div>
-        <CommandEmpty>No language found.</CommandEmpty>
-        <CommandGroup className="max-h-[200px] overflow-y-auto p-1">
-          {languages.map((language) => (
-            <CommandItem
-              key={language.value}
-              value={language.value}
-              onSelect={() => onSelect(language.value)}
-              className="flex items-center gap-2 px-2 py-1.5 cursor-pointer aria-selected:bg-accent"
-            >
-              <div className="flex h-4 w-4 items-center justify-center">
-                {selectedLanguages.includes(language.value) && (
-                  <Check className="h-4 w-4" />
-                )}
-              </div>
-              <span>{language.label}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </Command>
-
-      {selectedLanguages.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-2">
-          {selectedLanguages.map((lang) => {
-            const language = languages.find(l => l.value === lang)
-            return (
-              <span
-                key={lang}
-                className="inline-flex items-center gap-1 bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm"
-              >
-                {language?.label || lang}
-              </span>
-            )
-          })}
+    <div className="relative" onClick={(e) => e.stopPropagation()}>
+      <div className="relative">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value)
+            setSearch(e.target.value)
+            setOpen(true)
+          }}
+          onFocus={() => setOpen(true)}
+          disabled={disabled}
+          placeholder="e.g., node, python, react"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus:border-primary/40 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+        />
+      </div>
+      {open && filteredLanguages.length > 0 && (
+        <div className="absolute top-[calc(100%+4px)] z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+          <Command className="w-full">
+            <CommandGroup className="max-h-[200px] overflow-y-auto">
+              {filteredLanguages.map((lang) => (
+                <CommandItem
+                  key={lang}
+                  value={lang}
+                  onSelect={handleSelect}
+                  className="flex items-center gap-2 px-2 py-1.5 cursor-pointer aria-selected:bg-accent"
+                >
+                  <div className="flex h-4 w-4 items-center justify-center">
+                    {selectedLanguages.includes(lang.toLowerCase()) && (
+                      <Check className="h-4 w-4" />
+                    )}
+                  </div>
+                  <span>{lang}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+            {filteredLanguages.length === 0 && (
+              <CommandEmpty>No results found.</CommandEmpty>
+            )}
+          </Command>
         </div>
       )}
     </div>
   )
-} 
+}

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Combobox } from "@/components/ui/combobox"
 
 export default function GitignorePage() {
     const [languages, setLanguages] = useState('');
@@ -58,14 +59,13 @@ export default function GitignorePage() {
                             Enter languages or frameworks (comma-separated)
                         </label>
                         <div className="flex gap-2">
-                            <Input
-                                type="text"
-                                value={languages}
-                                onChange={(e) => setLanguages(e.target.value)}
-                                placeholder="e.g., node, python, react"
-                                className="flex-1"
-                                disabled={isLoading}
-                            />
+                            <div className="flex-1">
+                                <Combobox
+                                    value={languages}
+                                    onChange={setLanguages}
+                                    disabled={isLoading}
+                                />
+                            </div>
                             <Button 
                                 onClick={handleSubmit} 
                                 disabled={isLoading}

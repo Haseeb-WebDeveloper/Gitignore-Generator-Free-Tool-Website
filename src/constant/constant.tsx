@@ -1,5 +1,5 @@
 export const GITHUB_URL = "https://github.com/Haseeb-WebDeveloper/gitignore-generator";
-export const EMAIL = "haseebahmedraza021@gmail.com";
+export const EMAIL = "web.dev.haseeb@gmail.com";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/haseeb-ahmed-raza-021/";
 export const AUTHOR_NAME = "Haseeb Ahmed Raza Khan";
 

@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
+import { EMAIL } from "@/constant/constant"
 
 export function Navbar() {
   return (
@@ -33,13 +34,13 @@ export function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-4">
-            <Link 
+            {/* <Link 
               href="/blog" 
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
             >
               <BookOpen className="h-4 w-4 mr-2" />
               Blog
-            </Link>
+            </Link> */}
           </nav>
         </div>
 
@@ -48,7 +49,9 @@ export function Navbar() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-9">
                 <Mail className="h-4 w-4 mr-2" />
-                <span className="hidden md:inline">Contact Developer</span>
+                <Link href={`mailto:${EMAIL}`} target="_blank" rel="noreferrer">
+                  <span className="hidden md:inline">Contact Developer</span>
+                </Link>
               </Button>
             </DropdownMenuTrigger>
           </DropdownMenu>
