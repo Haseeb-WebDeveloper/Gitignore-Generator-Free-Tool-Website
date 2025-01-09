@@ -55,7 +55,7 @@ const GitignorePage = () => {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            Enter languages or frameworks (comma-separated)
+                            Enter languages (comma-separated)
                         </label>
                         <div className="flex gap-2">
                             <div className="flex-1">
@@ -81,7 +81,7 @@ const GitignorePage = () => {
                             </Button>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Popular: node, python, react, nextjs, java, go
+                            Popular: node, python, java, go
                         </p>
                     </div>
                 </CardContent>
