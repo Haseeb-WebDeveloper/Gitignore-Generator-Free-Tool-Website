@@ -17,39 +17,48 @@ export async function POST(req: Request) {
             );
         }
 
-        // Initialize templates object. this is the object that will store the templates means the gitignore files
+        // Initialize templates object
         let localTemplates: Record<string, string> = {};
         
-        // this is the array that will store the templates means the gitignore files
-        const templates = languages.map((lang: string) => localTemplates[lang] || '').filter(Boolean);
+        // Try to read existing templates
+        try {
+            const fileContent = await fs.readFile(localTemplatesPath, 'utf-8');
+            localTemplates = JSON.parse(fileContent);
+        } catch (error) {
+            // If file doesn't exist, create directory and empty templates file
+            await fs.mkdir(path.dirname(localTemplatesPath), { recursive: true });
+            await fs.writeFile(localTemplatesPath, JSON.stringify({}, null, 2));
+        }
+
+        // Check which languages we need to fetch
+        const missingLanguages = languages.filter(lang => !localTemplates[lang]);
         
-        if (templates.length === languages.length) {
-            // All templates found locally
-            return NextResponse.json({ content: templates.join('\n\n') });
-        } else {
-            // Missing templates, fetch from Gitignore.io
-            console.log("Fetching from Gitignore.io");
-            const missingLanguages = languages.filter((lang: string) => !localTemplates[lang]);
-            
+        // If we have missing languages, fetch them from the API
+        if (missingLanguages.length > 0) {
             try {
+                console.log("Fetching from Gitignore.io:", missingLanguages);
                 const apiResponse = await axios.get(
                     `https://www.toptal.com/developers/gitignore/api/${missingLanguages.join(',')}`
                 );
                 
-                const apiTemplate = apiResponse.data;
+                const fullTemplate = apiResponse.data;
 
-                // Save the new templates to local storage
-                const templateSections = apiTemplate.split('\n\n');
-                missingLanguages.forEach((lang: string, index: number) => {
-                    localTemplates[lang] = templateSections[index] || '';
+                // Split the template by the standard gitignore header pattern
+                const templateParts = fullTemplate.split(/# Created by https:\/\/www\.toptal\.com\/developers\/gitignore\/api\/[^\n]+\n/);
+                const headers = fullTemplate.match(/# Created by https:\/\/www\.toptal\.com\/developers\/gitignore\/api\/[^\n]+\n/g) || [];
+                
+                // Process each language's template
+                missingLanguages.forEach((lang, index) => {
+                    // Find the corresponding section for this language
+                    const header = headers[index] || '';
+                    const content = templateParts[index + 1] || '';
+                    
+                    // Store the complete template for this language
+                    localTemplates[lang] = content.trim();
                 });
 
+                // Save updated templates
                 await fs.writeFile(localTemplatesPath, JSON.stringify(localTemplates, null, 2));
-
-                // Combine and send the response
-                return NextResponse.json({
-                    content: [...templates, apiTemplate].join('\n\n')
-                });
             } catch (apiError) {
                 console.error('API Error:', apiError);
                 return NextResponse.json(
@@ -58,6 +67,20 @@ export async function POST(req: Request) {
                 );
             }
         }
+
+        // Combine templates for all requested languages
+        const combinedTemplate = languages
+            .map(lang => {
+                const template = localTemplates[lang];
+                if (template) {
+                    return `### ${lang.toUpperCase()} ###\n${template}\n`;
+                }
+                return '';
+            })
+            .filter(Boolean)
+            .join('\n');
+
+        return NextResponse.json({ content: combinedTemplate });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json(
