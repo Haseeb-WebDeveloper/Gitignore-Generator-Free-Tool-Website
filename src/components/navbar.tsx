@@ -19,18 +19,18 @@ export function Navbar() {
         <div className="flex items-center gap-6">
           <Link 
             href="/" 
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 "
           >
             <Image 
-              src="/gitignoreio-logo.svg" 
+              src="/logo.png" 
               alt="Logo" 
               width={100} 
               height={100} 
-              className="w-8 h-8" 
+              className="w-32 h-32 mt-2" 
             />
-            <span className="font-semibold hidden md:inline-block">
+            {/* <span className="font-semibold hidden md:inline-block">
               Gitignore Generator
-            </span>
+            </span> */}
           </Link>
 
           <nav className="hidden md:flex items-center space-x-4">
