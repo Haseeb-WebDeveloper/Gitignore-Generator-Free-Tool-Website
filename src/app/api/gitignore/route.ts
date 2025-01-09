@@ -3,7 +3,7 @@ import axios from 'axios';
 import fs from 'fs/promises';
 import path from 'path';
 
-const localTemplatesPath = path.join(process.cwd(), 'src', 'app', 'data', 'templates.json');
+const localTemplatesPath = path.join(process.cwd(), 'src', 'data', 'templates.json');
 
 export async function POST(req: Request) {
     try {
@@ -17,19 +17,10 @@ export async function POST(req: Request) {
             );
         }
 
-        // Initialize templates object
+        // Initialize templates object. this is the object that will store the templates means the gitignore files
         let localTemplates: Record<string, string> = {};
         
-        // Try to read existing templates
-        try {
-            const fileContent = await fs.readFile(localTemplatesPath, 'utf-8');
-            localTemplates = JSON.parse(fileContent);
-        } catch (error) {
-            // If file doesn't exist, create directory and empty templates file
-            await fs.mkdir(path.dirname(localTemplatesPath), { recursive: true });
-            await fs.writeFile(localTemplatesPath, JSON.stringify({}, null, 2));
-        }
-
+        // this is the array that will store the templates means the gitignore files
         const templates = languages.map((lang: string) => localTemplates[lang] || '').filter(Boolean);
         
         if (templates.length === languages.length) {
