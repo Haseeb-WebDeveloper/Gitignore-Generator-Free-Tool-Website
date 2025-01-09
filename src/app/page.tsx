@@ -4,33 +4,11 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { DownloadButton } from "@/components/ui/download-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Combobox } from "@/components/ui/combobox"
 
-export const generateStructuredData = () => {
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Gitignore Generator",
-    "description": "Generate custom .gitignore files instantly for your development projects",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Haseeb Ahmed Raza Khan",
-      "url": "https://github.com/Haseeb-WebDeveloper"
-    }
-  };
-};
-
-export default function GitignorePage() {
+const GitignorePage = () => {
     const [languages, setLanguages] = useState('');
     const [result, setResult] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +40,6 @@ export default function GitignorePage() {
             setIsLoading(false);
         }
     };
-
-    const structuredData = generateStructuredData();
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl padding">
@@ -137,11 +113,8 @@ export default function GitignorePage() {
                     </CardContent>
                 </Card>
             )}
-
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-            />
         </div>
     );
-}
+};
+
+export default GitignorePage;

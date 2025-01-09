@@ -6,7 +6,6 @@ const nextConfig = {
     formats: ['image/webp'],
   },
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react'],
   },
   compiler: {
