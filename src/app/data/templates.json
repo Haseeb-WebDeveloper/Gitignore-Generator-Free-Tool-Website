@@ -1,5 +1,10 @@
 {
   "node": "# Node.js dependencies\nnode_modules/\nnpm-debug.log\nyarn-debug.log\nyarn-error.log\n.pnpm-debug.log\n\n# Environment variables\n.env\n.env.local\n.env.*.local",
   "python": "# Python\n__pycache__/\n*.py[cod]\n*$py.class\n*.so\n.Python\nbuild/\ndevelop-eggs/\ndist/\ndownloads/\neggs/\n.eggs/\nlib/\nlib64/\nparts/\nsdist/\nvar/\nwheels/\n*.egg-info/\n.installed.cfg\n*.egg",
-  "react": "# React\n.DS_*\n*.log\nlogs\n**/*.backup.*\n**/*.back.*\nnode_modules\nbower_components\n*.sublime*\npsd\nthumb\nsketch\n.env\n.env.local\n.env.development.local\n.env.test.local\n.env.production.local"
+  "react": "# React\n.DS_*\n*.log\nlogs\n**/*.backup.*\n**/*.back.*\nnode_modules\nbower_components\n*.sublime*\npsd\nthumb\nsketch\n.env\n.env.local\n.env.development.local\n.env.test.local\n.env.production.local",
+  "nextjs": "# Created by https://www.toptal.com/developers/gitignore/api/nextjs\n# Edit at https://www.toptal.com/developers/gitignore?templates=nextjs",
+  "dbt": "# Created by https://www.toptal.com/developers/gitignore/api/dbt\n# Edit at https://www.toptal.com/developers/gitignore?templates=dbt",
+  "c": "# Created by https://www.toptal.com/developers/gitignore/api/c\n# Edit at https://www.toptal.com/developers/gitignore?templates=c",
+  "java": "# Created by https://www.toptal.com/developers/gitignore/api/java,go\n# Edit at https://www.toptal.com/developers/gitignore?templates=java,go",
+  "go": "### Go ###\n# If you prefer the allow list template instead of the deny list, see community template:\n# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore\n#\n# Binaries for programs and plugins\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib"
 }
