@@ -9,6 +9,27 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Combobox } from "@/components/ui/combobox"
 
+export const generateStructuredData = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Gitignore Generator",
+    "description": "Generate custom .gitignore files instantly for your development projects",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Haseeb Ahmed Raza Khan",
+      "url": "https://github.com/Haseeb-WebDeveloper"
+    }
+  };
+};
+
 export default function GitignorePage() {
     const [languages, setLanguages] = useState('');
     const [result, setResult] = useState('');
@@ -42,13 +63,15 @@ export default function GitignorePage() {
         }
     };
 
+    const structuredData = generateStructuredData();
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl padding">
             <Card className="mb-8 bg-foreground/[0.03]">
                 <CardHeader>
-                    <CardTitle className="text-center">
-                        <h1 className="text-4xl font-bold">Gitignore Generator</h1>
-                        <p className="text-sm text-muted-foreground mt-2">
+                    <CardTitle className=" w-full">
+                        <h1 className="text-4xl font-bold text-center">Gitignore Generator</h1>
+                        <p className="text-sm text-muted-foreground mt-2 text-center">
                             Generate .gitignore files for your projects instantly
                         </p>
                     </CardTitle>
@@ -69,6 +92,7 @@ export default function GitignorePage() {
                             <Button 
                                 onClick={handleSubmit} 
                                 disabled={isLoading}
+                                aria-label="Generate .gitignore file"
                             >
                                 {isLoading ? (
                                     <>
@@ -104,6 +128,7 @@ export default function GitignorePage() {
                                     toast.success('Copied to clipboard!');
                                 }}
                                 variant="outline"
+                                aria-label="Copy .gitignore file to clipboard"
                                 className="absolute right-2 top-2"
                             >
                                 Copy
@@ -112,6 +137,11 @@ export default function GitignorePage() {
                     </CardContent>
                 </Card>
             )}
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
         </div>
     );
 }

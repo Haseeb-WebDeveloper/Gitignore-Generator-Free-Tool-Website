@@ -11,6 +11,7 @@ export function Footer() {
               href="https://github.com/Haseeb-WebDeveloper"
               target="_blank"
               rel="noreferrer"
+              aria-label="Visit Haseeb Ahmed Raza Khan's GitHub profile"
               className="font-medium underline underline-offset-4"
             >
               Haseeb Ahmed Raza Khan

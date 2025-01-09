@@ -23,6 +23,7 @@ export function DownloadButton({ content, filename = '.gitignore' }: DownloadBut
     <Button 
       onClick={handleDownload}
       variant="outline"
+      aria-label="Download .gitignore file"
       className="gap-2"
     >
       <Download className="h-4 w-4" />
