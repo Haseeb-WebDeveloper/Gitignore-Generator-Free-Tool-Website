@@ -48,8 +48,8 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" aria-label="Contact Developer" size="sm" className="h-9">
-                <Mail className="h-4 w-4 mr-2" />
+              <Button variant="outline" aria-label="Contact Developer" size="sm" className="h-9 flex items-center justify-center gap-2">
+                <Mail className="h-4 w-4" />
                 <Link href={`mailto:${EMAIL}`} target="_blank" rel="noreferrer" aria-label="Contact Developer">
                   <span className="hidden md:inline">Contact Developer</span>
                 </Link>
