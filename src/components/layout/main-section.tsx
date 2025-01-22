@@ -88,13 +88,13 @@ const GitignorePage = () => {
             </Card>
 
             {result && (
-                <Card>
+                <Card className="">
                     <CardHeader className="flex flex-col md:flex-row gap-4 items-center justify-between space-y-0 pb-2">
                         <CardTitle>Your .gitignore file</CardTitle>
                         <DownloadButton content={result} />
                     </CardHeader>
                     <CardContent>
-                        <div className="relative rounded-md bg-muted mt-2 md:mt-0">
+                        <div className="relative rounded-md bg-muted mt-2 md:mt-0 w-full">
                             <pre className="max-h-[500px] overflow-y-auto overflow-x-auto p-4 text-sm">
                                 <code>{result}</code>
                             </pre>
