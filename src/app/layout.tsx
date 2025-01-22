@@ -95,6 +95,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com" 
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="FPMvDVpfB5Ct27ZXFhx2byEyxCdkcKzytxzN72BRbGE" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider
